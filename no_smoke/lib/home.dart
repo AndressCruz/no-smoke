@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:no_smoke/cards/meta_card.dart';
+import 'package:no_smoke/cards/prg_conq.dart';
+import 'package:no_smoke/cards/saude_card.dart';
 import 'package:no_smoke/home_widget/meta_widget.dart';
 import 'package:no_smoke/home_widget/progresso_widget.dart';
 import 'package:no_smoke/home_widget/trofeu_widget.dart';
@@ -16,95 +19,67 @@ class Home extends StatelessWidget {
   }
 
   _body() {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 60,
-        left: 40,
-        right: 40,
-      ),
-      color: Colors.white,
-      child: ListView(
-        children: [
-          SizedBox(
-            width: 150,
-            height: 150,
-            child: Image.asset("assets/logo_no_smoke.jpg"),
+    return Stack(
+      children: [
+        Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Color.fromARGB(255, 12, 0, 232),
+              Color.fromARGB(255, 255, 255, 255),
+            ]),
           ),
-          Text(
-            'NoSmoke',
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 58,
+            left: 240,
+          ),
+          child: Text(
+            'Olá,\nUsuário.',
             style: TextStyle(
+              fontSize: 35,
               fontFamily: 'Onest',
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
             ),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
           ),
-          Divider(
-            color: Colors.red,
-            thickness: 2.0,
-          ),
-          MetaBox(),
-          Divider(
-            color: Colors.red,
-            thickness: 2.0,
-          ),
-          Text(
-            'Progresso Geral',
-            style: TextStyle(
-              fontFamily: 'Onest',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 150.0),
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 60,
+              left: 40,
+              right: 40,
             ),
-            textAlign: TextAlign.left,
-          ),
-          ProgressoGeral(),
-          Divider(
-            color: Colors.red,
-            thickness: 2.0,
-          ),
-          Text(
-            'Conquistas',
-            style: TextStyle(
-              fontFamily: 'Onest',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+              color: Colors.white,
             ),
-            textAlign: TextAlign.left,
+            height: double.infinity,
+            width: double.infinity,
           ),
-          TrofeuConquista(),
-          Divider(
-            color: Colors.red,
-            thickness: 2.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 120,
           ),
-          Text(
-            'Melhorias na saúde',
-            style: TextStyle(
-              fontFamily: 'Onest',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
-            ),
-            textAlign: TextAlign.left,
+          child: ListView(
+            children: [
+              SizedBox(
+                width: 150,
+                height: 150,
+                child: Image.asset("assets/logo_no_smoke.jpg"),
+              ),
+              MyCustomCard(),
+              PrgConCard(),
+              SaudeCard(),
+            ],
           ),
-          Divider(
-            color: Colors.red,
-            thickness: 2.0,
-          ),
-          Text(
-            'Comunidade',
-            style: TextStyle(
-              fontFamily: 'Onest',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
-            ),
-            textAlign: TextAlign.left,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

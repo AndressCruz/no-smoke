@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:no_smoke/comunidades.dart';
 
-class PrgConCard extends StatelessWidget {
-  const PrgConCard({super.key});
+class PrgConCard extends StatefulWidget {
+  PrgConCard({Key? key}) : super(key: key);
+
+  @override
+  State<PrgConCard> createState() => _PrgConCardState();
+}
+
+class _PrgConCardState extends State<PrgConCard> {
+  DateTime _dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +20,7 @@ class PrgConCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
-          color: MyColorsSample.primaryDark,
+          color: Color.fromARGB(255, 244, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -37,16 +45,15 @@ class PrgConCard extends StatelessWidget {
                 ),
               ),
               TextButton(
-                style: TextButton.styleFrom(
-                    // Remove foregroundColor property
-                    ),
-                // child: const Text(
-                //   "LISTEN NOW",
-                //   style: TextStyle(color: Colors.white),
-                // ),
+                style: TextButton.styleFrom(),
                 child:
                     const Icon(FontAwesomeIcons.comment, color: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyFeed()),
+                  );
+                },
               ),
             ],
           ),
@@ -55,88 +62,124 @@ class PrgConCard extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                color: MyColorsSample.primary,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(15),
-                      child: const Text(
-                        "Meta \nfoi definida",
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                        color: Colors.white, thickness: 0.5, height: 0),
-                    Row(
-                      children: <Widget>[
-                        Container(width: 15),
-                        const Text("Outubro 04, 2023",
-                            style: TextStyle(color: Colors.white)),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.event, color: Colors.white),
-                          onPressed: () {},
-                        ),
-                        Container(width: 4),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              child: _buildMetaCard("Meta \nfoi definida"),
             ),
             Container(width: 2),
             Expanded(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                color: MyColorsSample.primary,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(width: 15),
-                        const Text("Conquistas",
-                            style: TextStyle(color: Colors.white)),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(FontAwesomeIcons.trophy,
-                              color: Colors.white),
-                          onPressed: () {},
-                        ),
-                        Container(width: 4),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(15),
-                      child: const Text(
-                        "Suas \nconquistas",
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child:
+                  _buildAchievementsCard("Conquistas", FontAwesomeIcons.trophy),
             ),
           ],
         ),
         Container(height: 3),
       ],
     );
+  }
+
+  Widget _buildMetaCard(String title) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      color: Color.fromARGB(255, 231, 89, 46),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(15),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const Divider(color: Colors.white, thickness: 0.5, height: 0),
+          Row(
+            children: <Widget>[
+              Container(width: 15),
+              Text(_dateTime.toString().substring(0, 10),
+                  style: TextStyle(color: Colors.white)),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.event, color: Colors.white),
+                onPressed: () {
+                  _selectDate(context);
+                },
+              ),
+              Container(width: 4),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAchievementsCard(String title, IconData icon) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      color: Color.fromARGB(255, 231, 89, 46),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(width: 15),
+              Text(title, style: TextStyle(color: Colors.white)),
+              const Spacer(),
+              IconButton(
+                icon: Icon(icon, color: Colors.white),
+                onPressed: () {},
+              ),
+              Container(width: 4),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(15),
+            child: const Text(
+              "Suas \nconquistas",
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _dateTime,
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2030),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.red, // Header background color
+            hintColor: Colors.red, // Selection color
+            colorScheme: ColorScheme.light(primary: Colors.red),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != _dateTime) {
+      setState(() {
+        _dateTime = picked;
+      });
+      // Handle the selected date
+      print('Selected date: $picked');
+    }
   }
 }
 

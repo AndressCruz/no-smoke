@@ -1,39 +1,48 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:no_smoke/cards/meta_card.dart';
 import 'package:no_smoke/cards/prg_conq.dart';
 import 'package:no_smoke/cards/saude_card.dart';
-import 'package:no_smoke/home_widget/meta_widget.dart';
-import 'package:no_smoke/home_widget/progresso_widget.dart';
-import 'package:no_smoke/home_widget/trofeu_widget.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu), // Ícone do menu à esquerda
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+        ),
+        elevation: 0,
+        backgroundColor: Color.fromARGB(255, 231, 89, 46),
+      ),
       body: _body(),
+      drawer: MySidebar(),
     );
   }
 
-  _body() {
+  Widget _body() {
     return Stack(
       children: [
         Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 12, 0, 232),
-              Color.fromARGB(255, 255, 255, 255),
-            ]),
-          ),
+          color: Color.fromARGB(255, 231, 89, 46),
         ),
         Padding(
           padding: const EdgeInsets.only(
-            top: 58,
             left: 240,
           ),
           child: Text(
@@ -41,15 +50,17 @@ class Home extends StatelessWidget {
             style: TextStyle(
               fontSize: 35,
               fontFamily: 'Onest',
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.right,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 150.0),
+          padding: const EdgeInsets.only(top: 100.0),
           child: Container(
             padding: EdgeInsets.only(
-              top: 60,
+              top: 30,
               left: 40,
               right: 40,
             ),
@@ -64,7 +75,7 @@ class Home extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(
-            top: 120,
+            top: 110,
           ),
           child: ListView(
             children: [
@@ -80,6 +91,122 @@ class Home extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class MySidebar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text(
+              'Nome do Usuário',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Onest',
+                  fontSize: 24 // Cor do texto do nome do usuário
+                  ),
+            ),
+            accountEmail: null,
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage('assets/avatar.png'),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.red, // Cor de fundo do cabeçalho
+              image: DecorationImage(
+                image: AssetImage('assets/side_bar_logo.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.listCheck),
+            title: Text(
+              'Progresso Geral',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Progresso Geral" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.comment),
+            title: Text(
+              'Comunidade',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Comunidade" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.event),
+            title: Text(
+              'Metas',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Metas" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.trophy),
+            title: Text(
+              'Conquistas',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Conquistas" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.notesMedical),
+            title: Text(
+              'Melhorias na Saúde',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Melhorias na Saúde" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text(
+              'Log Out',
+              style: TextStyle(
+                color: Colors.red, // Cor do texto do item do menu
+              ),
+            ),
+            onTap: () {
+              // Implemente a ação quando "Melhorias na Saúde" for selecionado
+              Navigator.pop(context); // Fecha o Drawer
+            },
+          ),
+        ],
+      ),
     );
   }
 }

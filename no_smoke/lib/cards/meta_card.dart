@@ -1,78 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:no_smoke/progresso.dart';
 
 class MyCustomCard extends StatelessWidget {
   const MyCustomCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: MyColorsSample.primary,
-      // Define the shape of the card
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
-      // Define how the card's content should be clipped
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      // Define the child widget of the card
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // Add an image widget to display an image
-            // Image.asset(
-            //   ImgSample.get("assets/google_logo.png"),
-            //   height: 100,
-            //   width: 100,
-            //   fit: BoxFit.cover,
-            // ),
-            const Icon(
-              FontAwesomeIcons.listCheck, // Ícone de calendário
-              size: 90.0, // Tamanho do ícone
-              color: Colors.white, // Cor do ícone
-            ),
-            // Add some spacing between the image and the text
-            Container(width: 20),
-            // Add an expanded widget to take up the remaining horizontal space
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // Add some spacing between the top of the card and the title
-                  Container(height: 5),
-                  // Add a title widget
-                  Text(
-                    "Progresso Geral",
-                    style: MyTextSample.title(context)!.copyWith(
-                      color: MyColorsSample.grey_3,
-                      fontFamily: 'Onest',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  // Add some spacing between the title and the subtitle
-                  Container(height: 5),
-                  // Add a subtitle widget
-                  Text(
-                    "X Dias \nX Cigarros \nEconomia",
-                    style: MyTextSample.body1(context)!.copyWith(
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                  // Add some spacing between the subtitle and the text
-                  Container(height: 5),
-                  // Add a text widget to display some text
-                  // Text(
-                  //   MyStringsSample.card_text,
-                  //   maxLines: 2,
-                  //   style: MyTextSample.subhead(context)!.copyWith(
-                  //     color: Colors.grey[700],
-                  //   ),
-                  // ),
-                ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Progresso()),
+        );
+      },
+      child: Card(
+        color: Color.fromARGB(255, 231, 89, 46),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Icon(
+                FontAwesomeIcons.listCheck,
+                size: 90.0,
+                color: Colors.white,
               ),
-            ),
-          ],
+              Container(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(height: 5),
+                    Text(
+                      "Progresso Geral",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Onest',
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(height: 5),
+                    Text(
+                      "X Dias \nX Cigarros \nEconomia",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(height: 5),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

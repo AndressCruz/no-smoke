@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:no_smoke/saude.dart';
 
 class SaudeCard extends StatelessWidget {
   const SaudeCard({super.key});
@@ -12,7 +13,7 @@ class SaudeCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
-          color: MyColorsSample.primaryDark,
+          color: Color.fromARGB(255, 244, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -46,7 +47,12 @@ class SaudeCard extends StatelessWidget {
                 // ),
                 child: const Icon(FontAwesomeIcons.notesMedical,
                     color: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Saude()),
+                  );
+                },
               ),
             ],
           ),

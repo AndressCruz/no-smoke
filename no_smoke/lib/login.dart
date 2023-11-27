@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:no_smoke/login_widget/botaoCadastro.dart';
 import 'package:no_smoke/login_widget/botaoEntrar.dart';
@@ -9,7 +11,10 @@ import 'package:no_smoke/login_widget/inputSenha.dart';
 import 'package:no_smoke/login_widget/login_google.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  // const LoginPage({super.key});
+  TextEditingController _email = TextEditingController();
+  TextEditingController _senha = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

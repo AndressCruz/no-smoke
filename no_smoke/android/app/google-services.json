@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "867541268254",
+    "project_id": "no-smoke-386a3",
+    "storage_bucket": "no-smoke-386a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867541268254:android:96f8e590e5e3b35c94bb0f",
+        "android_client_info": {
+          "package_name": "com.example.no_smoke"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_D7_3Ku6y0GstKJknUs4SPF84Y8_UNHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

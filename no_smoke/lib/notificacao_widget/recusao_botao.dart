@@ -22,7 +22,7 @@ class RecusarBotao extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  const LoginPage(), // Navegar para a tela de cadastro
+                  LoginPage(), // Navegar para a tela de cadastro
             ),
           );
         },

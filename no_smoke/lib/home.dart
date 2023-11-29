@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:no_smoke/cards/meta_card.dart';
 import 'package:no_smoke/cards/prg_conq.dart';
 import 'package:no_smoke/cards/saude_card.dart';
+import 'package:no_smoke/login.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -201,12 +203,25 @@ class MySidebar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Implemente a ação quando "Melhorias na Saúde" for selecionado
-              Navigator.pop(context); // Fecha o Drawer
+              FirebaseAuth.instance.signOut().then((value) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              });
             },
           ),
         ],
       ),
     );
+  }
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      print("Sign-out successful");
+    } catch (e) {
+      print("Error during sign-out: $e");
+    }
   }
 }

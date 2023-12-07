@@ -1,16 +1,25 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:no_smoke/cadastro_widget/botao_cadastro.dart';
 import 'package:no_smoke/cadastro_widget/checkbox.dart';
-import 'package:no_smoke/login_widget/inputLogin.dart';
-import 'package:no_smoke/login_widget/inputSenha.dart';
+import 'package:no_smoke/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Cadastro extends StatelessWidget {
-  const Cadastro({super.key});
+class Cadastro extends StatefulWidget {
+  @override
+  State<Cadastro> createState() => _CadastroState();
+}
 
+TextEditingController _email = TextEditingController();
+TextEditingController _senha = TextEditingController();
+late FirebaseAuth _auth;
+
+class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
+    _initFirebase();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -49,11 +58,23 @@ class Cadastro extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          EmailInputField(),
+          TextFormField(
+              controller: _email,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                hintText: 'exemplo@gmail.com',
+              )),
           SizedBox(
             height: 30,
           ),
-          PasswordInputField(),
+          TextFormField(
+              controller: _senha,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                hintText: 'Digite sua senha',
+              )),
           SizedBox(
             height: 30,
           ),
@@ -61,9 +82,69 @@ class Cadastro extends StatelessWidget {
           SizedBox(
             height: 50,
           ),
-          BotaoEfetuarCadastro(),
+          SizedBox(
+            width: 200,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () {
+                _signUp();
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                textStyle: MaterialStateProperty.all<TextStyle>(
+                  TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              child: Text("Entrar"),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _initFirebase() async {
+    await Firebase.initializeApp();
+    if (Firebase.initializeApp() == null) {
+      print("Erro ao inicializar o Firebase");
+    } else {
+      print("Firebase inicializado com sucesso");
+    }
+    _auth = FirebaseAuth.instance;
+  }
+
+  void _signUp() async {
+    String email = _email.text;
+    String senha = _senha.text;
+
+    User? user = (await _auth.createUserWithEmailAndPassword(
+            email: email, password: senha))
+        .user;
+
+    if (user != null) {
+      print("Usuário criado com sucesso!");
+      Fluttertoast.showToast(
+          msg: "Usuário criado com sucesso!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      print("Erro ao criar usuário");
+    }
   }
 }

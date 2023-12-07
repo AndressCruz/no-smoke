@@ -1,13 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:no_smoke/notificacoes.dart';
 import 'package:no_smoke/preco_widget/preco_botao.dart';
-import 'package:no_smoke/preco_widget/preco_input.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class PrecoCigarro extends StatelessWidget {
+class PrecoCigarro extends StatefulWidget {
   const PrecoCigarro({super.key});
 
+  @override
+  State<PrecoCigarro> createState() => _PrecoCigarroState();
+}
+
+class _PrecoCigarroState extends State<PrecoCigarro> {
+  TextEditingController _precoCigarro = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +56,10 @@ class PrecoCigarro extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          PrecoInput(),
+          TextFormField(
+            controller: _precoCigarro,
+            keyboardType: TextInputType.number,
+          ),
           SizedBox(
             height: 40,
           ),
@@ -63,9 +73,39 @@ class PrecoCigarro extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          PrecoBotao(),
+          SizedBox(
+            width: 200,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () {
+                quardarPreco();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Notificacoes()));
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                textStyle: MaterialStateProperty.all<TextStyle>(
+                  TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              child: Text("Continuar"),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> quardarPreco() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('precoCigarro', _precoCigarro.text);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:no_smoke/comunidades.dart';
 
 class PrgConCard extends StatefulWidget {
@@ -100,7 +101,7 @@ class _PrgConCardState extends State<PrgConCard> {
           Row(
             children: <Widget>[
               Container(width: 15),
-              Text(_dateTime.toString().substring(0, 10),
+              Text(DateFormat('dd/MM/yyyy').format(_dateTime),
                   style: TextStyle(color: Colors.white)),
               const Spacer(),
               IconButton(

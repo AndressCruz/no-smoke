@@ -6,13 +6,13 @@ class GoogleLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                const Cadastro(), // Navegar para a tela de cadastro
-          ),
-        );
+        // Navigator.push(
+        //   context
+        //   // MaterialPageRoute(
+        //   //   builder: (context) =>
+        //   //       const Cadastro(), // Navegar para a tela de cadastro
+        //   // ),
+        // );
       },
       icon: Image.asset(
         'assets/google_logo_2.png', // Substitua pelo caminho real para o ícone do Google

@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:no_smoke/progresso.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyCustomCard extends StatelessWidget {
+class MyCustomCard extends StatefulWidget {
   const MyCustomCard({Key? key}) : super(key: key);
+
+  @override
+  State<MyCustomCard> createState() => _MyCustomCardState();
+}
+
+class _MyCustomCardState extends State<MyCustomCard> {
+  String _qtdCigarros = '';
+  String _qtdMaco = '';
+  String _data = '';
+  final String diasDifference = '';
+  String _diasDifference = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getQtdCigarro();
+    _getDias();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +66,7 @@ class MyCustomCard extends StatelessWidget {
                     ),
                     Container(height: 5),
                     Text(
-                      "X Dias \nX Cigarros \nEconomia",
+                      "$_diasDifference  Dias até seu objetivo \n $_qtdCigarros Cigarros \nR\u0024 -$_qtdMaco de Economia",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -62,6 +81,44 @@ class MyCustomCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _getQtdCigarro() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? qtdCigarros = prefs.getString('qtdCigarro');
+    String? precoCigarro = prefs.getString('precoCigarro');
+    setState(() {
+      _qtdCigarros = qtdCigarros ?? '';
+      _qtdMaco = precoCigarro ?? '';
+    });
+  }
+
+  Future<int> _getDias() async {
+    SharedPreferences prefs_qtd = await SharedPreferences.getInstance();
+    String? dataString = prefs_qtd.getString('data');
+    int diasDifference = 0;
+
+    if (dataString != null && dataString.isNotEmpty) {
+      // Parse the date manually
+      List<String> dateParts = dataString.split('/');
+      if (dateParts.length == 3) {
+        int day = int.tryParse(dateParts[0]) ?? 0;
+        int month = int.tryParse(dateParts[1]) ?? 0;
+        int year = int.tryParse(dateParts[2]) ?? 0;
+
+        DateTime data = DateTime(year, month, day);
+        DateTime currentDate = DateTime.now();
+        diasDifference = currentDate.difference(data).inDays;
+
+        setState(() {
+          _data = dataString;
+          _diasDifference = diasDifference.toString();
+        });
+        print('Dias: $diasDifference');
+      }
+    }
+
+    return diasDifference;
   }
 }
 
@@ -110,6 +167,6 @@ class MyColorsSample {
   static const Color red_100 = Color(0xFFFFCDD2);
 }
 
-class MyStringsSample {
-  static const card_text = "X dias";
-}
+// class MyStringsSample {
+//   static const card_text = "X dias";
+// }

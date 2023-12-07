@@ -4,12 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:no_smoke/login_widget/botaoCadastro.dart';
-import 'package:no_smoke/login_widget/botaoEntrar.dart';
 import 'package:no_smoke/login_widget/esqueceu_senha.dart';
-import 'package:no_smoke/login_widget/inputLogin.dart';
-import 'package:no_smoke/login_widget/inputSenha.dart';
 import 'package:no_smoke/login_widget/login_google.dart';
 import 'package:no_smoke/stop.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -139,6 +137,14 @@ class _LoginPageState extends State<LoginPage> {
       );
     } catch (e) {
       print("Não autorizado $e");
+      Fluttertoast.showToast(
+          msg: "E-mail ou senha incorretos!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
     setState(() {});
   }

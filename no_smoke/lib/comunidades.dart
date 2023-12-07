@@ -47,6 +47,7 @@ class _MyFeedState extends State<MyFeed> {
             fontFamily: 'Onest',
             fontWeight: FontWeight.bold,
             fontSize: 22,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(

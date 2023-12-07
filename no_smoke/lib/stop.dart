@@ -1,14 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:no_smoke/stop_widget/stop_botao.dart';
-import 'package:no_smoke/stop_widget/stop_data.dart';
+import 'package:no_smoke/quantidade.dart';
 import 'package:no_smoke/stop_widget/stop_radio_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class StopSmoke extends StatelessWidget {
+class StopSmoke extends StatefulWidget {
   const StopSmoke({super.key});
 
+  @override
+  State<StopSmoke> createState() => _StopSmokeState();
+}
+
+class _StopSmokeState extends State<StopSmoke> {
+  TextEditingController _data = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +57,13 @@ class StopSmoke extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          DateInput(),
+          // DateInput(),
+          TextFormField(
+              controller: _data,
+              decoration: InputDecoration(
+                labelText: 'Data',
+                hintText: 'dd/mm/aaaa',
+              )),
           SizedBox(
             height: 30,
           ),
@@ -67,12 +77,43 @@ class StopSmoke extends StatelessWidget {
           SizedBox(
             height: 70,
           ),
-          BotaoStopContinuar(),
+          // BotaoStopContinuar(),
+          SizedBox(
+            width: 200,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () {
+                guardarData();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Quantidade()));
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                textStyle: MaterialStateProperty.all<TextStyle>(
+                  TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              child: Text("Continuar"),
+            ),
+          ),
           SizedBox(
             height: 50,
           ),
         ],
       ),
     );
+  }
+
+  Future guardarData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('data', _data.text);
   }
 }

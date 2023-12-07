@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:no_smoke/cadastro_widget/checkbox.dart';
 import 'package:no_smoke/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -130,6 +131,14 @@ class _CadastroState extends State<Cadastro> {
 
     if (user != null) {
       print("Usuário criado com sucesso!");
+      Fluttertoast.showToast(
+          msg: "Usuário criado com sucesso!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),

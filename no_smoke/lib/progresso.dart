@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:no_smoke/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Progresso extends StatelessWidget {
+class Progresso extends StatefulWidget {
+  @override
+  State<Progresso> createState() => _ProgressoState();
+}
+
+class _ProgressoState extends State<Progresso> {
+  String _qtdCigarros = '';
+  String _qtdMaco = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getQtdCigarro();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,6 +28,7 @@ class Progresso extends StatelessWidget {
             fontFamily: 'Onest',
             fontWeight: FontWeight.bold,
             fontSize: 22,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(
@@ -38,7 +54,7 @@ class Progresso extends StatelessWidget {
           children: [
             _buildInfoCard(
               title: 'Economia',
-              content: 'R\$ 100 economizados esse mês',
+              content: 'R\$ -$_qtdMaco economizados esse mês',
             ),
             _buildInfoCard(
               title: 'Qualidade de Vida',
@@ -46,7 +62,7 @@ class Progresso extends StatelessWidget {
             ),
             _buildInfoCard(
               title: 'Cigarros',
-              content: 'Você deixou de fumar x cigarros esse mês',
+              content: 'Você fumou $_qtdCigarros cigarros hoje',
             ),
             _buildChart(),
             // Add more elements as needed
@@ -144,5 +160,15 @@ class Progresso extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _getQtdCigarro() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? qtdCigarros = prefs.getString('qtdCigarro');
+    String? precoCigarro = prefs.getString('precoCigarro');
+    setState(() {
+      _qtdCigarros = qtdCigarros ?? '';
+      _qtdMaco = precoCigarro ?? '';
+    });
   }
 }
